@@ -1,0 +1,157 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Scripts/Puzzle.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/ShapeAnimated.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/PuzzleGenerator.gd" type="Script" id=4]
+[ext_resource path="res://GUI/startburst/4.png" type="Texture" id=5]
+[ext_resource path="res://GUI/startburst/5.png" type="Texture" id=6]
+[ext_resource path="res://GUI/startburst/1.png" type="Texture" id=7]
+[ext_resource path="res://GUI/startburst/2.png" type="Texture" id=8]
+[ext_resource path="res://GUI/startburst/3.png" type="Texture" id=9]
+
+[sub_resource type="Environment" id=1]
+background_mode = 1
+background_color = Color( 0, 0, 0, 0 )
+fog_depth_begin = 54.0
+fog_depth_end = 3264.8
+fog_depth_curve = 0.901248
+dof_blur_far_transition = 130.66
+glow_intensity = 5.2
+glow_strength = 0.82
+glow_bloom = 0.01
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_saturation = 1.41
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 7
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 36, 36 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 7
+atlas = ExtResource( 2 )
+region = Rect2( 36, 0, 36, 36 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 7
+atlas = ExtResource( 2 )
+region = Rect2( 72, 0, 36, 36 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 7
+atlas = ExtResource( 2 )
+region = Rect2( 108, 0, 36, 36 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 7
+atlas = ExtResource( 2 )
+region = Rect2( 144, 0, 36, 36 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"loop": false,
+"name": "toSquare",
+"speed": 6.0
+} ]
+
+[sub_resource type="Animation" id=9]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1.5, 1.5, 1.5 ), Vector3( 1.5, 1.5, 1.5 ), Vector3( 0.8, 0.8, 0.8 ), Vector3( 0.8, 0.8, 0.8 ), Vector3( 1.2, 1.2, 1 ), Vector3( 1.2, 1.2, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../WinAnimation:opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 1.3, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../WinAnimation:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 720 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../WinAnimation:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 1.3, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.5, 0.5, 0.5 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 0.5, 0.5, 0.5 ) ]
+}
+
+[node name="World" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 80 )
+environment = SubResource( 1 )
+projection = 1
+current = true
+size = 40.0
+far = 200.0
+
+[node name="WinAnimation" type="AnimatedSprite3D" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -80 )
+opacity = 0.0
+pixel_size = 0.025
+frames = SubResource( 2 )
+frame = 3
+playing = true
+
+[node name="Puzzle" type="Spatial" parent="."]
+script = ExtResource( 1 )
+
+[node name="TemplateOrb" type="AnimatedSprite3D" parent="Puzzle"]
+modulate = Color( 0.976471, 0.976471, 0.976471, 1 )
+pixel_size = 0.0345
+billboard = 1
+frames = SubResource( 8 )
+animation = "toSquare"
+
+[node name="Group1" type="Spatial" parent="Puzzle"]
+
+[node name="Group2" type="Spatial" parent="Puzzle"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle"]
+anims/Win = SubResource( 9 )
+
+[node name="PuzzleGenerator" type="Node" parent="Puzzle"]
+script = ExtResource( 4 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )

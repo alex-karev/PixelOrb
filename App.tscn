@@ -1,0 +1,400 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Puzzle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GUI/svg/gui_360.svg" type="Texture" id=2]
+[ext_resource path="res://GUI/svg/gui_next.svg" type="Texture" id=3]
+[ext_resource path="res://GUI/svg/gui_sound.svg" type="Texture" id=4]
+[ext_resource path="res://GUI/svg/gui_nosound.svg" type="Texture" id=5]
+[ext_resource path="res://Scripts/GUI.gd" type="Script" id=6]
+[ext_resource path="res://GUI/CaviarDreams.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Scripts/Audio.gd" type="Script" id=8]
+[ext_resource path="res://Audio/Win.ogg" type="AudioStream" id=9]
+[ext_resource path="res://Audio/Click.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Audio/Music.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Scripts/Spritesheet.gd" type="Script" id=12]
+[ext_resource path="res://Sprites/spritesheet1.png" type="Texture" id=13]
+[ext_resource path="res://GUI/svg/gui_reset.svg" type="Texture" id=14]
+
+[sub_resource type="Environment" id=1]
+background_mode = 1
+background_color = Color( 0, 0, 0, 0 )
+fog_depth_begin = 54.0
+fog_depth_end = 3264.8
+fog_depth_curve = 0.901248
+dof_blur_far_transition = 130.66
+glow_intensity = 5.2
+glow_strength = 0.82
+glow_bloom = 0.01
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_saturation = 1.41
+
+[sub_resource type="World" id=2]
+environment = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+outline_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+font_data = ExtResource( 7 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "End"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Titles:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Titles:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Titles/ScrollContainer:scroll_vertical")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 999 ]
+}
+
+[sub_resource type="Animation" id=5]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Next:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Next:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("360:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("360:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+tracks/0/type = "value"
+tracks/0/path = NodePath("360:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("360:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Next:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Next:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="App" type="Spatial"]
+
+[node name="Spritesheet" type="Node" parent="."]
+script = ExtResource( 12 )
+spriteSheet = ExtResource( 13 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.933333, 0.933333, 0.933333, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 1024, 600 )
+size_override_stretch = true
+world = SubResource( 2 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="World" parent="ViewportContainer/Viewport" instance=ExtResource( 1 )]
+
+[node name="GUI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="360" type="TextureRect" parent="GUI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -75.0
+margin_top = -136.0
+margin_right = 75.0
+mouse_filter = 2
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="TextureButton" parent="GUI"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -56.0
+margin_top = -131.0
+margin_right = 75.0
+margin_bottom = 5.0
+rect_scale = Vector2( 0.7, 0.7 )
+mouse_filter = 1
+texture_normal = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sound" type="TextureButton" parent="GUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -89.0
+margin_top = 9.0
+margin_right = 61.0
+margin_bottom = 158.0
+rect_scale = Vector2( 0.5, 0.5 )
+toggle_mode = true
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+
+[node name="Level" type="Label" parent="GUI"]
+anchor_left = 0.011
+anchor_top = 0.022
+anchor_right = 0.022
+anchor_bottom = 0.022
+margin_right = 82.736
+margin_bottom = 48.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+text = "Level"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI"]
+anims/End = SubResource( 4 )
+anims/Next = SubResource( 5 )
+anims/Start = SubResource( 6 )
+anims/Win = SubResource( 7 )
+
+[node name="Titles" type="ColorRect" parent="GUI"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.129412, 0.129412, 0.129412, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GUI/Titles"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Titles/ScrollContainer"]
+margin_right = 1024.0
+margin_bottom = 866.0
+size_flags_horizontal = 3
+
+[node name="header" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
+margin_right = 1012.0
+margin_bottom = 150.0
+custom_fonts/font = SubResource( 3 )
+text = "
+Thank you for playing PixelOrb!
+"
+align = 1
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
+margin_top = 154.0
+margin_right = 1012.0
+margin_bottom = 508.0
+
+[node name="col1" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_right = 504.0
+margin_bottom = 354.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 3 )
+text = "Art:
+Alex's Assets
+alexs-assets.itch.io
+
+UI, Code:
+SandEbru
+sandebru.itch.io"
+align = 1
+autowrap = true
+
+[node name="col2" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_left = 508.0
+margin_right = 1012.0
+margin_bottom = 354.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 3 )
+text = "Sounds, Music:
+Irina Kareva
+
+
+Engine:
+Godot
+godotengine.org"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="footer" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
+margin_top = 512.0
+margin_right = 1012.0
+margin_bottom = 713.0
+custom_fonts/font = SubResource( 3 )
+text = "
+Game by SandEbru
+sandebru.itch.io
+"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reset" type="TextureButton" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
+margin_left = 431.0
+margin_top = 717.0
+margin_right = 581.0
+margin_bottom = 866.0
+size_flags_horizontal = 4
+texture_normal = ExtResource( 14 )
+
+[node name="Audio" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 11 )
+volume_db = -12.0
+autoplay = true
+
+[node name="Win" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 9 )
+pitch_scale = 1.1
+
+[node name="Click" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 10 )
+[connection signal="button_down" from="GUI/Next" to="GUI" method="_on_Next_button_down"]
+[connection signal="toggled" from="GUI/Sound" to="GUI" method="_on_Sound_toggled"]
+[connection signal="button_down" from="GUI/Titles/ScrollContainer/VBoxContainer/Reset" to="GUI" method="_on_Reset_button_down"]

@@ -20,7 +20,7 @@ This update generally makes game run on mobile platforms, adds menus and changes
 - Sound volume decreased
 - **Fixed** level now stars from 1
 
-###Removed
+### Removed
 - Level counter (replaced with menu button)
 - Titles in the end (replaced with about menu). After beating all the levels, game starts from level 1
 

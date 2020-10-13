@@ -6,15 +6,16 @@
 ---
 
 ## Play
-You can play it on Itch.io!
+-- You can play it on Itch.io!<br/>
 https://sandebru.itch.io/pixelorb
-Or download it for Android
+
+Or download it for Android<br/>
 https://play.google.com/store/apps/details?id=org.godotengine.pixelorbitch
 
 ---
 
 ## About
-This project used to be my unpublished mobile game, but at some point I gave up working on it. A few months later I decided to do a full code refactoring, remove ads, level menu and settings menu, and publish it on itch.io
+PixelOrb is a free and open-source cross-platform puzzle game build with Godot Engine.
 
 ---
 

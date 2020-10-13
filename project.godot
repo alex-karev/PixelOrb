@@ -18,6 +18,7 @@ _global_script_class_icons={
 config/name="PixelOrb(Itch)"
 run/main_scene="res://App.tscn"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
@@ -25,7 +26,11 @@ Global="*res://Scripts/Global.gd"
 
 [display]
 
+window/size/width=1280
+window/size/height=720
 window/handheld/orientation="portrait"
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [input]
 

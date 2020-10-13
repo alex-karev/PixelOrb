@@ -1,10 +1,10 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Puzzle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GUI/svg/gui_360.svg" type="Texture" id=2]
-[ext_resource path="res://GUI/svg/gui_next.svg" type="Texture" id=3]
-[ext_resource path="res://GUI/svg/gui_sound.svg" type="Texture" id=4]
-[ext_resource path="res://GUI/svg/gui_nosound.svg" type="Texture" id=5]
+[ext_resource path="res://GUI/buttons_v2/gui_next.png" type="Texture" id=3]
+[ext_resource path="res://GUI/buttons_v2/gui_nosound.png" type="Texture" id=4]
+[ext_resource path="res://GUI/buttons_v2/gui_sound.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/GUI.gd" type="Script" id=6]
 [ext_resource path="res://GUI/CaviarDreams.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://Scripts/Audio.gd" type="Script" id=8]
@@ -14,6 +14,10 @@
 [ext_resource path="res://Scripts/Spritesheet.gd" type="Script" id=12]
 [ext_resource path="res://Sprites/spritesheet1.png" type="Texture" id=13]
 [ext_resource path="res://GUI/svg/gui_reset.svg" type="Texture" id=14]
+[ext_resource path="res://GUI/buttons_v2/gui_x.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/unplayed.png" type="Texture" id=16]
+[ext_resource path="res://GUI/buttons_v2/gui_about.png" type="Texture" id=17]
+[ext_resource path="res://GUI/buttons_v2/gui_menu.png" type="Texture" id=18]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
@@ -32,52 +36,7 @@ adjustment_saturation = 1.41
 [sub_resource type="World" id=2]
 environment = SubResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 40
-outline_color = Color( 0.129412, 0.129412, 0.129412, 1 )
-font_data = ExtResource( 7 )
-
-[sub_resource type="Animation" id=4]
-resource_name = "End"
-length = 10.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("Titles:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Titles:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Titles/ScrollContainer:scroll_vertical")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 1, 10 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0, 999 ]
-}
-
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Next:visible")
 tracks/0/interp = 1
@@ -127,7 +86,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("360:visible")
 tracks/0/interp = 1
@@ -153,7 +112,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Next:visible")
@@ -180,11 +139,27 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_left = 50.0
+content_margin_right = 50.0
+content_margin_top = 50.0
+content_margin_bottom = 50.0
+bg_color = Color( 0.933333, 0.933333, 0.933333, 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 56
+outline_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+font_data = ExtResource( 7 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.933333, 0.933333, 0.933333, 1 )
+
 [node name="App" type="Spatial"]
 
 [node name="Spritesheet" type="Node" parent="."]
 script = ExtResource( 12 )
 spriteSheet = ExtResource( 13 )
+unplayedTexture = ExtResource( 16 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -199,14 +174,15 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 stretch = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 1024, 600 )
-size_override_stretch = true
+size = Vector2( 1280, 720 )
 world = SubResource( 2 )
 transparent_bg = true
 handle_input_locally = false
@@ -228,11 +204,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -75.0
-margin_top = -136.0
-margin_right = 75.0
+margin_left = -145.0
+margin_top = -187.0
+margin_right = 146.0
 mouse_filter = 2
 texture = ExtResource( 2 )
+expand = true
+stretch_mode = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -243,11 +221,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -56.0
-margin_top = -131.0
-margin_right = 75.0
-margin_bottom = 5.0
-rect_scale = Vector2( 0.7, 0.7 )
+margin_left = -113.0
+margin_top = -341.0
+margin_right = 113.0
 mouse_filter = 1
 texture_normal = ExtResource( 3 )
 __meta__ = {
@@ -257,78 +233,111 @@ __meta__ = {
 [node name="Sound" type="TextureButton" parent="GUI"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -89.0
-margin_top = 9.0
-margin_right = 61.0
-margin_bottom = 158.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = -156.0
+margin_bottom = 151.0
 toggle_mode = true
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 5 )
-
-[node name="Level" type="Label" parent="GUI"]
-anchor_left = 0.011
-anchor_top = 0.022
-anchor_right = 0.022
-anchor_bottom = 0.022
-margin_right = 82.736
-margin_bottom = 48.0
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
-text = "Level"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 4 )
+stretch_mode = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI"]
-anims/End = SubResource( 4 )
-anims/Next = SubResource( 5 )
-anims/Start = SubResource( 6 )
-anims/Win = SubResource( 7 )
+anims/Next = SubResource( 3 )
+anims/Start = SubResource( 4 )
+anims/Win = SubResource( 5 )
 
-[node name="Titles" type="ColorRect" parent="GUI"]
+[node name="LevelMenu" type="ScrollContainer" parent="GUI"]
 visible = false
-self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.129412, 0.129412, 0.129412, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScrollContainer" type="ScrollContainer" parent="GUI/Titles"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+mouse_filter = 1
+custom_styles/bg = SubResource( 6 )
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Titles/ScrollContainer"]
-margin_right = 1024.0
-margin_bottom = 866.0
+[node name="Center" type="CenterContainer" parent="GUI/LevelMenu"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 1230.0
+margin_bottom = 670.0
+mouse_filter = 1
+size_flags_horizontal = 7
+size_flags_vertical = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelGrid" type="GridContainer" parent="GUI/LevelMenu/Center"]
+margin_left = 490.0
+margin_top = 210.0
+margin_right = 690.0
+margin_bottom = 410.0
+custom_constants/vseparation = 50
+custom_constants/hseparation = 50
+columns = 2
+
+[node name="TemplateLevel" type="TextureButton" parent="GUI/LevelMenu/Center/LevelGrid"]
+self_modulate = Color( 1, 1, 1, 0.231373 )
+margin_right = 200.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 200, 200 )
+mouse_filter = 1
+texture_normal = ExtResource( 16 )
+expand = true
+
+[node name="Label" type="Label" parent="GUI/LevelMenu/Center/LevelGrid/TemplateLevel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+text = "01"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="About" type="ScrollContainer" parent="GUI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/bg = SubResource( 8 )
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/About"]
+margin_right = 1280.0
+margin_bottom = 1463.0
 size_flags_horizontal = 3
 
-[node name="header" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
-margin_right = 1012.0
-margin_bottom = 150.0
-custom_fonts/font = SubResource( 3 )
+[node name="header" type="Label" parent="GUI/About/VBoxContainer"]
+margin_right = 708.0
+margin_bottom = 342.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
 text = "
-Thank you for playing PixelOrb!
+PixelOrb
+An open source puzzle game.
 "
 align = 1
 autowrap = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
-margin_top = 154.0
-margin_right = 1012.0
-margin_bottom = 508.0
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/About/VBoxContainer"]
+margin_top = 346.0
+margin_right = 708.0
+margin_bottom = 964.0
 
-[node name="col1" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer/HBoxContainer"]
-margin_right = 504.0
-margin_bottom = 354.0
+[node name="col1" type="Label" parent="GUI/About/VBoxContainer/HBoxContainer"]
+margin_right = 352.0
+margin_bottom = 618.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
 text = "Art:
 Alex's Assets
 alexs-assets.itch.io
@@ -339,12 +348,13 @@ sandebru.itch.io"
 align = 1
 autowrap = true
 
-[node name="col2" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer/HBoxContainer"]
-margin_left = 508.0
-margin_right = 1012.0
-margin_bottom = 354.0
+[node name="col2" type="Label" parent="GUI/About/VBoxContainer/HBoxContainer"]
+margin_left = 356.0
+margin_right = 708.0
+margin_bottom = 618.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
 text = "Sounds, Music:
 Irina Kareva
 
@@ -358,28 +368,48 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="footer" type="Label" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
-margin_top = 512.0
-margin_right = 1012.0
-margin_bottom = 713.0
-custom_fonts/font = SubResource( 3 )
+[node name="footer" type="Label" parent="GUI/About/VBoxContainer"]
+margin_top = 968.0
+margin_right = 708.0
+margin_bottom = 1241.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.129412, 0.129412, 0.129412, 1 )
 text = "
 Game by SandEbru
 sandebru.itch.io
-"
+
+Reset progress?"
 align = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Reset" type="TextureButton" parent="GUI/Titles/ScrollContainer/VBoxContainer"]
-margin_left = 431.0
-margin_top = 717.0
-margin_right = 581.0
-margin_bottom = 866.0
+[node name="Reset" type="TextureButton" parent="GUI/About/VBoxContainer"]
+margin_left = 279.0
+margin_top = 1245.0
+margin_right = 429.0
+margin_bottom = 1394.0
 size_flags_horizontal = 4
 texture_normal = ExtResource( 14 )
+
+[node name="Menu" type="TextureButton" parent="GUI"]
+margin_right = 124.0
+margin_bottom = 73.0
+toggle_mode = true
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 17 )
+
+[node name="Close" type="TextureButton" parent="GUI"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -150.0
+margin_bottom = 150.0
+texture_normal = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Audio" type="Node" parent="."]
 script = ExtResource( 8 )
@@ -391,10 +421,14 @@ autoplay = true
 
 [node name="Win" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 9 )
+volume_db = -10.0
 pitch_scale = 1.1
 
 [node name="Click" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 10 )
+volume_db = -10.0
 [connection signal="button_down" from="GUI/Next" to="GUI" method="_on_Next_button_down"]
 [connection signal="toggled" from="GUI/Sound" to="GUI" method="_on_Sound_toggled"]
-[connection signal="button_down" from="GUI/Titles/ScrollContainer/VBoxContainer/Reset" to="GUI" method="_on_Reset_button_down"]
+[connection signal="button_down" from="GUI/About/VBoxContainer/Reset" to="GUI" method="_on_Reset_button_down"]
+[connection signal="button_down" from="GUI/Menu" to="GUI" method="_on_Menu_button_down"]
+[connection signal="button_down" from="GUI/Close" to="GUI" method="_on_Close_button_down"]

@@ -141,7 +141,10 @@ func generate(newSpriteSheet, newCellSize, newLevel):
 			#Spawn new orb
 			var newOrb = templateOrb.duplicate()
 			newOrb.visible = true
-			newOrb.modulate = pixel
+			var mat = newOrb.get_surface_material(0)
+			var newMat = mat.duplicate()
+			newMat.set_shader_param("color",pixel)
+			newOrb.set_surface_material(0,newMat)
 			#Add it to group 1 or 2 randomly
 			if randi()%2 == 1:
 				group1.add_child(newOrb)

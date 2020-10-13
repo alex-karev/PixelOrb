@@ -8,11 +8,18 @@
 ## Play
 You can play it on Itch.io!
 https://sandebru.itch.io/pixelorb
+Or download it for Android
+https://play.google.com/store/apps/details?id=org.godotengine.pixelorbitch
 
 ---
 
 ## About
 This project used to be my unpublished mobile game, but at some point I gave up working on it. A few months later I decided to do a full code refactoring, remove ads, level menu and settings menu, and publish it on itch.io
+
+---
+
+## Changelog
+https://github.com/alex-karev/PixelOrb/blob/main/CHANGELOG.md
 
 ---
 
@@ -28,6 +35,7 @@ Open Godot Engine (standard version 3.x), press import button, navigate to this 
 - Two scenes, one for the app itself and one for the puzzle. Puzzle scene is placed inside viewport node on the App scene, which allows using shader-based post-processing and custom backgrounds.
 - Relatively small codebase. Commented.
 - GUI/Audio/Spritesheet managers, Puzzle Controller, Puzzle generator and singleton for handling global events.
+- Mobile support
 
 ---
 

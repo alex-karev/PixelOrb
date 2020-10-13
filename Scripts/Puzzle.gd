@@ -2,21 +2,20 @@
 extends Spatial
 
 #Movement settings
-export var speed = 3
 export var rotationSnap = 0.2
-export var sensivity = 0.01 #swipe sensivity
+export var dragSpeed = 0.01
+export var dragDamping = 3
+export var keyboardSpeed = 3
 
-#Global variables
-var axis = Vector2.ZERO
-var drag = Vector2.ZERO
 var orbs = []
 var groupDirections = [Vector3.ZERO, Vector3.ZERO]
 var state = "Ready"
 var toWin = 1
-var touch = false
 var spriteSheet
 var cellSize = 16
 var level = 1
+var drag = false
+var axis = Vector2.ZERO
 
 #Link to global, assign global variables, load level and run process
 func _ready():
@@ -24,37 +23,36 @@ func _ready():
 	level = Global.level
 	spriteSheet = Global.spriteSheet
 	cellSize = Global.cellSize
+	#Set camera size
+	get_node("../Camera").size = Global.cameraSize
+	#Load level
 	load_level(level)
 	set_process(true)
 
-#Controls
 func _unhandled_input(event):
-	#Stop if no touch
-	if !touch:
+		#Stop if no touch
+	if !drag:
 		axis = Vector2.ZERO
 	#Keyboard contorls
 	if Input.is_action_pressed("ui_up"):
-		touch = false
-		axis.y -= speed
+		drag = false
+		axis.y -= keyboardSpeed
 	if Input.is_action_pressed("ui_down"):
-		touch = false
-		axis.y += speed
+		drag = false
+		axis.y += keyboardSpeed
 	if Input.is_action_pressed("ui_left"):
-		touch = false
-		axis.x -= speed
+		drag = false
+		axis.x -= keyboardSpeed
 	if Input.is_action_pressed("ui_right"):
-		touch = false
-		axis.x += speed
+		drag = false
+		axis.x += keyboardSpeed
 	#Mouse controls
-	#set axis speed on drag.
 	if event is InputEventScreenDrag:
-		#apply sensivity
-		var pos = event.speed * sensivity
-		#if sensivity is not too low set axis
-		if pos.y or pos.x > sensivity:
-			axis = pos
-			touch = true
-	#Start game on input start
+		#if dragSpeed is not too low set axis
+		if event.speed .y or event.speed .x > 1:
+			axis = event.speed * dragSpeed
+			drag = true
+	#Remove 360 icon
 	if axis != Vector2.ZERO and state == "Ready":
 		state = "Playing"
 		Global.start_game()
@@ -62,14 +60,14 @@ func _unhandled_input(event):
 func _process(delta):
 	#Setting fake perspective
 	fake_perspective(delta)
-	
-	#damp axis on mouse or touch control
-	if touch:
-		axis.x = lerp(axis.x, 0, delta*5)
-		axis.y = lerp(axis.y, 0, delta*5)
-	
+
+	#Damp axis when draging
+	if drag:
+		axis = lerp(axis, Vector2.ZERO, delta*dragDamping)
+
 	#Gameover
 	if state == "GameOver":
+		orb2pixel(delta)
 		return
 	
 	#Win
@@ -82,10 +80,11 @@ func _process(delta):
 		if rotation.z >= PI-0.01:
 			#Play animations
 			$AnimationPlayer.play("Win")
-			orb2pixel()
 			#Reset translations and z rotation
 			$Group1.translation = Vector3.ZERO
 			$Group2.translation = Vector3.ZERO
+			for orb in orbs:
+				orb.translation.z = 0
 			rotation.z = PI
 			#Change state
 			state = "GameOver"
@@ -128,12 +127,19 @@ func fake_perspective(delta):
 		elif size < 0.5:
 			size = 0.5
 		#make all orbs' size the same when player is close to win
+		var mat = orb.get_surface_material(0)
+		var current_scale = mat.get_shader_param("scale")
+		var target_scale = 1
 		if toWin < 0.05:
-			orb.scale = lerp(orb.scale, Vector3.ONE, delta)
+			target_scale = lerp(current_scale, Vector2.ONE, delta)
 		else:
-			orb.scale = lerp(orb.scale, Vector3.ONE*size, delta*2)
+			target_scale = lerp(current_scale, Vector2.ONE*size, delta*2)
+		mat.set_shader_param("scale", target_scale)
 
-#Play animation on each orb
-func orb2pixel():
+#Make radius bigger than UV 
+func orb2pixel(delta):
 	for orb in orbs:
-		orb.play("toSquare")
+		var mat = orb.get_surface_material(0)
+		var current_radius = mat.get_shader_param("radius")
+		var radius = lerp(current_radius, 2, delta)
+		mat.set_shader_param("radius", radius)

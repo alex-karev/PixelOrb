@@ -6,14 +6,30 @@ var gui
 var puzzle
 var audio
 #Parameters
-var level = 1
+var cameraSize = 40
+var cameraSizeLandscape = 40
+var cameraSizePortrait = 60
+var level = 1   #Current level
+var levels = []  #Played levels
 var maxLevel = 31
 var muted = false
 var spriteSheet
+var unplayedTexture
 var cellSize
 
 func _ready():
+	cam_size()
 	load_game()
+
+#Adjust camera size
+func cam_size():
+	var window_size = OS.window_size
+	#Landscape mode
+	if window_size.x > window_size.y:
+		cameraSize = cameraSizeLandscape
+	#Portrait mode
+	else:
+		cameraSize = cameraSizePortrait
 
 #Muting and unmuting sound
 func mute(mute_state):
@@ -29,25 +45,31 @@ func start_game():
 func win():
 	gui.animation("Win")
 	audio.play("Win")
-	level += 1
+	if !levels.has(level):
+		levels.append(level)
+	level+=1
+	gui.gen_level_menu()
 	save_game()
 
-#Load next level
-func next_level():
-	#Show titles if there is no next level
+#Load next level or custom level
+func play_level(custom_level=null):
+	if custom_level:
+		level = custom_level
+	#End game if no more levels
 	if level > maxLevel:
 		end()
 		return
 	#Animation and sounds
-	gui.animation("Next")
-	gui.update_level()
+	if !custom_level:
+		gui.animation("Next")
 	audio.play("Click")
 	#Generate new level
 	puzzle.load_level(level)
 
 #Titles
 func end():
-	gui.animation("End")
+	pass
+	#gui.animation("End")
 
 #Reset game and start from level 1
 func reset():
@@ -59,7 +81,7 @@ func reset():
 func save_game():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
-	var save_data = {"level": level}
+	var save_data = {"levels": levels}
 	save_game.store_line(to_json(save_data))
 	save_game.close()
 
@@ -70,5 +92,10 @@ func load_game():
 		return # Error! We don't have a save to load.
 	save_game.open("user://savegame.save", File.READ)
 	var save_data = parse_json(save_game.get_line())
-	level = save_data["level"]
+	levels = save_data["levels"]
+	if levels.size() > 0:
+		level = levels[-1]+1
+	#Start from the first level if no more levels
+	if level > maxLevel:
+		level = 1
 	save_game.close()

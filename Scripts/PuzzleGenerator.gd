@@ -2,8 +2,8 @@
 extends Node
 #Global variables
 var spriteSheet
-var cellSize = 32
-var level = 1
+var cellSize: int = 32
+var level:int = 1
 #Random Number Generator
 var rng
 #Nodes
@@ -23,14 +23,14 @@ func _ready():
 #Get start pixel on spritesheet
 func get_start_point():
 	#Count columns
-	var columns = spriteSheet.get_size().x/cellSize
+	var columns = int(spriteSheet.get_size().x/cellSize)
 	#Get row
 	var row = 0
 	level -= 1
 	if level > columns-1:
 		row = int(level/columns)
 	#Get column
-	var column = level-row*columns
+	var column = int(level-row*columns)
 	#Return start position
 	var start = Vector2(column,row)*cellSize
 	return start
